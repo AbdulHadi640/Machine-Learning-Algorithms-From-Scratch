@@ -1,16 +1,14 @@
 # Linear Regression From Scratch
 
-A from-scratch implementation of **Linear Regression** using Python, NumPy, and Gradient Descent.
+A from-scratch implementation of **Linear Regression** using Python, NumPy, Pandas, Matplotlib, and Gradient Descent.
 
-The goal of this project is to understand the mathematical foundations behind Linear Regression rather than relying directly on a machine-learning library.
+The purpose of this implementation is to understand the mathematical and computational foundations of Linear Regression instead of directly relying on a machine-learning library.
 
-## 📌 Overview
+## Overview
 
-Linear Regression is a supervised learning algorithm used to predict a **continuous numerical value**.
+Linear Regression is a supervised learning algorithm used to predict a **continuous numerical target**.
 
-The model learns a relationship between an input feature \(X\) and a target variable \(Y\).
-
-For a single feature, the hypothesis is:
+For a single feature, the model is:
 
 $$
 \hat{Y} = mX + b
@@ -18,40 +16,29 @@ $$
 
 where:
 
-* \(m\) = weight/slope
-* \(b\) = bias/intercept
-* \(\hat{Y}\) = predicted value
+* $m$ = weight / slope
+* $b$ = bias / intercept
+* $\hat{Y}$ = predicted value
 
----
+## Cost Function
 
-## 🧠 Concepts Implemented
-
-* Data loading and preprocessing
-* Feature normalization
-* Linear Regression
-* Mean Squared Error-based cost function
-* Partial derivatives
-* Gradient Descent
-* Weight and bias updates
-* Prediction
-* Denormalization of predictions
-* Comparison with Scikit-learn
-
----
-
-## 📐 Cost Function
-
-The cost function used during training is:
+The Mean Squared Error-based cost function used in the implementation is:
 
 $$
-J(m,b)=\frac{1}{2n}\sum_{i=1}^{n}(\hat{y}_i-y_i)^2
+J(m,b)
+=
+\frac{1}{2n}
+\sum_{i=1}^{n}
+(\hat{y}_i-y_i)^2
 $$
 
-The objective of Gradient Descent is to minimize this cost.
+The objective is to minimize:
 
----
+$$
+\boxed{\min_{m,b} J(m,b)}
+$$
 
-### Gradients
+## Gradients
 
 The gradient with respect to the weight is:
 
@@ -73,76 +60,116 @@ $$
 (\hat{y}_i-y_i)
 $$
 
+## Gradient Descent
 
-## 🔄 Training Process
+The parameters are updated iteratively using:
+
+$$
+m := m-\alpha\frac{\partial J}{\partial m}
+$$
+
+$$
+b := b-\alpha\frac{\partial J}{\partial b}
+$$
+
+where $\alpha$ is the learning rate.
+
+### Learning Rate
+
+The learning rate controls the size of each update.
+
+* Very small learning rate → slow convergence
+* Very large learning rate → may overshoot or diverge
+* Appropriate learning rate → gradual convergence toward the minimum
+
+## Data Normalization
+
+The feature and target were normalized before training:
+
+$$
+X_{norm}
+=
+\frac{X-\mu_X}{\sigma_X}
+$$
+
+$$
+Y_{norm}
+=
+\frac{Y-\mu_Y}{\sigma_Y}
+$$
+
+Normalization helps Gradient Descent converge more effectively.
+
+## Denormalization
+
+After obtaining predictions in normalized units, predictions are converted back to the original target scale:
+
+$$
+Y_{original}
+=
+Y_{norm}\sigma_Y+\mu_Y
+$$
+
+This allows the final predictions to be interpreted in the original units of the dataset.
+
+## Training Process
 
 ```text
 Input Data
     ↓
-Normalize Features
+Normalize X and Y
     ↓
 Initialize m and b
     ↓
 Calculate Prediction
     ↓
-Calculate Loss
+Calculate Cost
     ↓
 Calculate Gradients
     ↓
 Update m and b
     ↓
-Repeat
+Repeat for multiple iterations
     ↓
-Final Model
+Denormalize Predictions
+    ↓
+Evaluate Model
 ```
 
----
+## Implementation
 
-## 🛠️ Technologies
+The implementation was built using:
 
 * Python
 * NumPy
 * Pandas
 * Matplotlib
-* Scikit-learn
 
----
+Scikit-learn was used only to compare the learned parameters with a standard implementation.
 
-## 📁 Project Structure
+## Validation
+
+The parameters learned using the from-scratch implementation were compared with Scikit-learn's `LinearRegression`.
+
+The learned parameters were very close to the Scikit-learn results, providing a practical validation of the Gradient Descent implementation.
+
+## Project Structure
 
 ```text
-Linear-Regression/
+Linear Regression/
 │
 ├── linear_regression.ipynb
 └── README.md
 ```
 
----
+## Learning Objective
 
-## 🔬 Validation
+This implementation focuses on understanding Linear Regression from the ground up:
 
-The implementation was compared with **Scikit-learn's LinearRegression** model.
-
-The learned parameters from the from-scratch implementation closely match the parameters obtained from Scikit-learn, validating the Gradient Descent implementation.
-
----
-
-## 📈 Visualization
-
-The notebook includes visualization of the training process and model predictions.
-
-The loss should decrease as Gradient Descent updates the model parameters and approaches the minimum of the cost function.
-
----
-
-## 🎯 Learning Objective
-
-This project was built to understand how Linear Regression works **under the hood**, including:
-
-1. How predictions are generated.
-2. How the loss is calculated.
+1. How predictions are calculated.
+2. How the cost function measures prediction error.
 3. How derivatives provide the direction of optimization.
 4. How Gradient Descent updates model parameters.
-5. How the learned model can be validated against a standard machine-learning implementation.
-
-This implementation is part of my **Machine Learning From Scratch** learning journey.
+5. Why normalization is useful.
+6. How normalized predictions are converted back to original units.
+7. How a from-scratch implementation can be validated against Scikit-learn.
