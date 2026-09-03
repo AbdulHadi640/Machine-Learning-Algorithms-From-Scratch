@@ -2,7 +2,7 @@
 
 A from-scratch implementation of **Multiple Linear Regression** using Python and NumPy.
 
-This project extends the concepts learned from Single Linear Regression to multiple input features and focuses on **vectorized matrix operations, Gradient Descent, normalization, and parameter updates**.
+This project extends the concepts learned from Single Linear Regression to multiple input features and focuses on vectorized matrix operations, Gradient Descent, normalization, and parameter updates.
 
 ## Overview
 
@@ -11,15 +11,13 @@ Multiple Linear Regression predicts a continuous target using multiple input fea
 The general model is:
 
 $$
-\hat{Y}
-=
-w_1x_1+w_2x_2+\cdots+w_dx_d+b
+\hat{Y} = w_1x_1 + w_2x_2 + \cdots + w_dx_d + b
 $$
 
 Using matrix notation:
 
 $$
-\hat{Y}=WX+b
+\hat{Y} = WX + b
 $$
 
 where:
@@ -45,79 +43,58 @@ For this implementation:
 Therefore:
 
 $$
-X\in\mathbb{R}^{d\times n}
-$$
-
-$$
-W\in\mathbb{R}^{1\times d}
+X \in \mathbb{R}^{d \times n}, \quad W \in \mathbb{R}^{1 \times d}
 $$
 
 For the current dataset:
 
 $$
-X=(6\times414)
+X = (6 \times 414), \quad W = (1 \times 6)
 $$
 
-$$
-W=(1\times6)
-$$
-
-### Prediction
+#### Prediction
 
 The prediction is:
 
 $$
-\hat{Y}=WX+b
+\hat{Y} = WX + b
 $$
 
 Shape calculation:
 
 $$
-(1\times6)(6\times414)
-=
-(1\times414)
+(1 \times 6)(6 \times 414) = (1 \times 414)
 $$
 
 Therefore, one prediction is produced for each sample.
 
-### Gradient with Respect to Weights
+#### Gradient with Respect to Weights
 
 For this orientation:
 
 $$
-\frac{\partial J}{\partial W}
-=
-\frac{1}{n}
-(\hat{Y}-Y)X^T
+\frac{\partial J}{\partial W} = \frac{1}{n} (\hat{Y} - Y)X^T
 $$
 
 Shape:
 
 $$
-(1\times414)(414\times6)
-=
-(1\times6)
+(1 \times 414)(414 \times 6) = (1 \times 6)
 $$
 
 Thus, one gradient is produced for every weight.
 
-In NumPy:
+In NumPy: dw = ((Y_hat - Y) @ X.T) / n
 
-```python
-dw = ((Y_hat - Y) @ X.T) / n
-```
-
-### Gradient with Respect to Bias
+#### Gradient with Respect to Bias
 
 $$
-\frac{\partial J}{\partial b}
-=
-\frac{1}{n}
-\sum_{i=1}^{n}
-(\hat{y}_i-y_i)
+\frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)
 $$
 
-## Approach 2 — Samples × Features
+---
+
+### Approach 2 — Samples × Features
 
 The second approach follows the conventional machine-learning orientation:
 
@@ -127,72 +104,49 @@ The second approach follows the conventional machine-learning orientation:
 Therefore:
 
 $$
-X\in\mathbb{R}^{n\times d}
-$$
-
-$$
-W\in\mathbb{R}^{d\times1}
+X \in \mathbb{R}^{n \times d}, \quad W \in \mathbb{R}^{d \times 1}
 $$
 
 For the same dataset:
 
 $$
-X=(414\times6)
+X = (414 \times 6), \quad W = (6 \times 1)
 $$
 
-$$
-W=(6\times1)
-$$
-
-### Prediction
+#### Prediction
 
 The prediction is:
 
 $$
-\hat{Y}=XW+b
+\hat{Y} = XW + b
 $$
 
 Shape:
 
 $$
-(414\times6)(6\times1)
-=
-(414\times1)
+(414 \times 6)(6 \times 1) = (414 \times 1)
 $$
 
-### Gradient with Respect to Weights
+#### Gradient with Respect to Weights
 
 For this orientation:
 
 $$
-\frac{\partial J}{\partial W}
-=
-\frac{1}{n}
-X^T(\hat{Y}-Y)
+\frac{\partial J}{\partial W} = \frac{1}{n} X^T(\hat{Y} - Y)
 $$
 
 Shape:
 
 $$
-(6\times414)(414\times1)
-=
-(6\times1)
+(6 \times 414)(414 \times 1) = (6 \times 1)
 $$
 
-In NumPy:
+In NumPy: dw = (X.T @ (Y_hat - Y)) / n
 
-```python
-dw = (X.T @ (Y_hat - Y)) / n
-```
-
-### Gradient with Respect to Bias
+#### Gradient with Respect to Bias
 
 $$
-\frac{\partial J}{\partial b}
-=
-\frac{1}{n}
-\sum_{i=1}^{n}
-(\hat{y}_i-y_i)
+\frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)
 $$
 
 ## Cost Function
@@ -200,17 +154,13 @@ $$
 The cost function used for training is:
 
 $$
-J(W,b)
-=
-\frac{1}{2n}
-\sum_{i=1}^{n}
-(\hat{y}_i-y_i)^2
+J(W,b) = \frac{1}{2n} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2
 $$
 
 The objective is:
 
 $$
-\boxed{\min_{W,b}J(W,b)}
+\min_{W,b} J(W,b)
 $$
 
 ## Gradient Descent
@@ -218,11 +168,11 @@ $$
 The weights and bias are updated repeatedly:
 
 $$
-W:=W-\alpha\frac{\partial J}{\partial W}
+W := W - \alpha \frac{\partial J}{\partial W}
 $$
 
 $$
-b:=b-\alpha\frac{\partial J}{\partial b}
+b := b - \alpha \frac{\partial J}{\partial b}
 $$
 
 where $\alpha$ is the learning rate.
@@ -231,30 +181,23 @@ where $\alpha$ is the learning rate.
 
 Each feature is normalized independently.
 
-For the Features × Samples orientation:
+For the **Features × Samples** orientation:
 
 $$
-X_{norm}
-=
-\frac{X-\mu_X}{\sigma_X}
+X_{norm} = \frac{X - \mu_X}{\sigma_X}
 $$
 
 where the mean and standard deviation are calculated across the samples of each feature.
 
 Using NumPy:
-
-```python
 X_mean = np.mean(X, axis=1, keepdims=True)
 X_std = np.std(X, axis=1, keepdims=True)
-
 X_norm = (X - X_mean) / X_std
-```
 
-For the Samples × Features orientation, the same operation is performed across rows using the feature axis.
+For the **Samples × Features** orientation, the same operation is performed across rows using the feature axis.
 
 ## Training Process
 
-```text
 Input Dataset
       ↓
 Select Features and Target
@@ -278,7 +221,6 @@ Repeat
 Denormalize Predictions
       ↓
 Evaluate Model
-```
 
 ## Vectorization
 
@@ -287,12 +229,10 @@ Instead of calculating every weight gradient separately using individual loops, 
 For example:
 
 $$
-dW=\frac{1}{n}(\hat{Y}-Y)X^T
+dW = \frac{1}{n}(\hat{Y} - Y)X^T
 $$
 
-produces the gradient for all weights in one vectorized operation.
-
-This makes the implementation cleaner and more efficient.
+produces the gradient for all weights in one vectorized operation, making the implementation cleaner and more efficient.
 
 ## Validation
 
@@ -304,29 +244,13 @@ The learned weights from the two approaches were very close to the Scikit-learn 
 
 The most important concept in this implementation was understanding that the mathematical operation remains the same even when the matrix orientation changes.
 
-For example:
+* **Features × Samples:**
+  $$W \times X \implies (1 \times d) \times (d \times n) \to (1 \times n)$$
 
-```text
-Features × Samples:
+* **Samples × Features:**
+  $$X \times W \implies (n \times d) \times (d \times 1) \to (n \times 1)$$
 
-W @ X
-
-(1 × d) @ (d × n)
-→ (1 × n)
-```
-
-while:
-
-```text
-Samples × Features:
-
-X @ W
-
-(n × d) @ (d × 1)
-→ (n × 1)
-```
-
-Both produce one prediction for every sample.
+Both successfully produce one prediction for every sample.
 
 ## Technologies
 
@@ -338,12 +262,10 @@ Both produce one prediction for every sample.
 
 ## Project Structure
 
-```text
 Multiple Linear Regression/
 │
 ├── multiple_linear_regression.ipynb
 └── README.md
-```
 
 ## Learning Objective
 
