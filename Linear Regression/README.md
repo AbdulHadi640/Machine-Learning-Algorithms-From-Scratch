@@ -51,7 +51,7 @@ The objective of Gradient Descent is to minimize this cost.
 
 ---
 
-## 📊 Gradients
+### Gradients
 
 The gradient with respect to the weight is:
 
@@ -72,20 +72,6 @@ $$
 \sum_{i=1}^{n}
 (\hat{y}_i-y_i)
 $$
-
-The parameters are updated using:
-
-$$
-m := m-\alpha\frac{\partial J}{\partial m}
-$$
-
-$$
-b := b-\alpha\frac{\partial J}{\partial b}
-$$
-
-where \(\alpha\) is the learning rate.
-
----
 
 ## 🔄 Training Process
 
