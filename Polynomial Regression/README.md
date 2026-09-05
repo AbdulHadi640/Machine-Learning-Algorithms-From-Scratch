@@ -96,8 +96,8 @@ from poly_model import PolynomialRegression
 
 # Load dataset from the parent Datasets directory
 df = pd.read_excel('../Datasets/Real_estate_valuation.xlsx')
-X = df[['X2 house age']].values
-Y = df['Y house price of unit area'].values
+X = df[['X2 house age']].to_numpy()
+Y = df['Y house price of unit area'].to_numpy()
 
 # Optional: Normalize target variable Y to stabilize gradient descent updates
 Y_mean = np.mean(Y)
