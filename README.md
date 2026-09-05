@@ -16,5 +16,7 @@ Machine-Learning-From-Scratch/
 ├── Multiple Linear Regression/
 │   ├── multiple_linear_regression.ipynb
 │   └── README.md
-│
+│── Polynomial Regression/
+│   ├── Polynomial Regression.ipynb
+│   └── README.md
 └── README.md
