@@ -21,7 +21,7 @@ class PolynomialRegression:
         self.losses.append(np.sum((Y_hat - Y)**2)/(2*n))
     def initialize_params(self,X):
         self.W = np.random.randn(X.shape[1],1)
-        print(self.W)
+
     def PolynomialFeatures(self,X):
         n_col = X.shape[1]
         columns = [X]
