@@ -157,27 +157,27 @@ For the **Samples × Features** orientation, the same operation is performed acr
 ## Training Process
 
 Input Dataset
-      ↓
+↓
 Select Features and Target
-      ↓
+↓
 Train/Test Split
-      ↓
+↓
 Normalize Features
-      ↓
+↓
 Initialize W and b
-      ↓
+↓
 Calculate Y_hat
-      ↓
+↓
 Calculate Cost
-      ↓
+↓
 Calculate dW and db
-      ↓
+↓
 Update W and b
-      ↓
+↓
 Repeat
-      ↓
+↓
 Denormalize Predictions
-      ↓
+↓
 Evaluate Model
 
 ## Vectorization
@@ -201,10 +201,15 @@ The learned weights from the two approaches were very close to the Scikit-learn 
 The most important concept in this implementation was understanding that the mathematical operation remains the same even when the matrix orientation changes.
 
 * **Features × Samples:**
-  $$W \times X \implies (1 \times d) \times (d \times n) \to (1 \times n)$$
+
+$$W \times X \implies (1 \times d) \times (d \times n) \to (1 \times n)$$
+
 
 * **Samples × Features:**
-  $$X \times W \implies (n \times d) \times (d \times 1) \to (n \times 1)$$
+
+$$X \times W \implies (n \times d) \times (d \times 1) \to (n \times 1)$$
+
+
 
 Both successfully produce one prediction for every sample.
 
@@ -225,3 +230,35 @@ Multiple Linear Regression/
 ├── LinearRegression.py
 ├── Multiple Regression.ipynb
 └── README.md
+
+```
+
+## Usage Example
+
+How to instantiate and train the custom `LinearRegression` class from `LinearRegression.py`:
+
+```python
+from LinearRegression import LinearRegression
+
+# Initialize the model with chosen hyper-parameters
+model = LinearRegression(learning_rate=0.1, epochs=50)
+
+# Fit the model using normalized features and target values
+model.fit(X_norm, Y_norm)
+
+```
+
+## Learning Objective
+
+This implementation was built to understand:
+
+1. Multiple Linear Regression mathematically.
+2. Matrix-based prediction.
+3. Matrix multiplication and shape compatibility.
+4. Vectorized gradient calculation.
+5. Gradient Descent for multiple parameters.
+6. Feature normalization.
+7. Denormalization of predictions.
+8. Different matrix orientations.
+9. Validation against Scikit-learn.
+10. Clean separation of reusable model logic into `LinearRegression.py` alongside the exploratory notebook.
