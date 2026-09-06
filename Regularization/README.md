@@ -1,139 +1,129 @@
-# Machine-Learning-Algorithms-From-Scratch: Regularization Module
+# Machine Learning Regularization From Scratch: Ridge & Lasso
 
-A comprehensive, production-style module implementing **Ridge (L2)** and **Lasso (L1)** regression models entirely from scratch using Python and NumPy. This repository avoids high-level machine learning abstractions like `scikit-learn` to showcase the fundamental mathematical, vectorization, and optimization principles driving regularized linear models.
+A comprehensive, object-oriented module implementing **Ridge (L2)** and **Lasso (L1)** regression models built entirely from scratch using Python and NumPy, applied to the Real Estate Valuation dataset. This repository avoids high-level machine learning abstractions like `scikit-learn` to demonstrate the foundational mathematical mechanics, vectorization, gradient descent optimization, and polynomial feature expansion driving regularized linear models.
 
 ---
 
-## Repository Architecture
-
-Based on your directory structure, the repository is organized into distinct subdirectories for datasets, model classes, and experimentation workflows:
+## Directory Structure
 
 ```text
 Regularization/
 ├── Datasets/
-│   └── Real_estate_valuation.xlsx    # Real Estate Valuation dataset
+│   └── Real_estate_valuation.xlsx    # Real Estate Valuation dataset[cite: 3, 5]
 ├── Lasso Regression/
-│   ├── LassoRegression.py            # Object-Oriented LassoRegression class module
-│   ├── LassoRegression.ipynb         # Step-by-step training, pipeline & evaluation notebook
+│   ├── LassoRegression.py            # Object-Oriented LassoRegression class module[cite: 3]
+│   ├── LassoRegression.ipynb         # Step-by-step Lasso implementation & analysis notebook[cite: 3]
 │   └── README.md                     # Lasso-specific documentation
 └── Ridge Regression/
-    ├── RidgeRegression_model.py      # Object-Oriented RidgeRegression class module
-    ├── RidgeRegression.ipynb         # Step-by-step training, pipeline & evaluation notebook
+    ├── RidgeRegression_model.py      # Object-Oriented RidgeRegression class module[cite: 5]
+    ├── RidgeRegression.ipynb         # Step-by-step Ridge implementation & evaluation notebook[cite: 5]
     └── README.md                     # Ridge-specific documentation
 
 ```
 
 ---
 
-## Comprehensive Guide to Regularization
+## The Theory of Regularization
 
-In machine learning, standard linear regression attempts to minimize the Mean Squared Error (MSE) between actual targets ($Y$) and predicted targets ($\hat{Y}$). However, when models encounter high-dimensional data, noisy features, or multicollinearity, unconstrained models tend to assign excessively large weights to coefficients. This leads to **overfitting**—where the model memorizes the training data noise instead of learning generalizable patterns.
+Standard linear regression minimizes the Mean Squared Error (MSE) to fit a hyperplane to data. However, when models encounter high-dimensional spaces, noisy inputs, or multicollinearity, unconstrained models often learn excessively large weight coefficients. This leads to **overfitting**, where the model memorizes training noise rather than capturing generalizable trends.
 
-**Regularization** solves this by adding a penalty term to the loss function, discouraging overly complex models by penalizing large coefficient magnitudes.
+**Regularization** prevents this by adding a penalty term to the loss function, penalizing large coefficient magnitudes to constrain model complexity and reduce variance.
 
 ---
 
+## Mathematical Formulations & Core Mechanisms
+
 ### 1. Ridge Regression (L2 Regularization)
 
-Ridge regression modifies the standard MSE cost function by adding a penalty proportional to the **squared magnitude** of the weight coefficients (the L2 norm).
+Ridge regression introduces a penalty proportional to the **squared magnitude** of the weight coefficients (the L2 norm).
 
-#### Mathematical Formulation
+* **Cost Function:**
 
-The regularized objective (cost) function for Ridge regression is:
+$$J(W, b) = \frac{1}{2n} \sum (\hat{Y} - Y)^2 + \frac{\lambda}{2n} \sum W^2$$
 
-$$J(W, b) = \frac{1}{2n} \sum_{i=1}^{n} (\hat{Y}^{(i)} - Y^{(i)})^2 + \frac{\lambda}{2n} \sum_{j=1}^{d} W_j^2$$
 
-Where:
 
-* $n$ is the number of samples.
-* $\hat{Y} = XW + b$ is the linear prediction hypothesis.
-* $\lambda$ (Lambda) is the hyperparameter controlling the strength of regularization.
-* $\sum W^2$ is the squared L2 penalty norm.
-
-#### Gradient Descent Optimization
-
-To minimize this cost function via gradient descent, we take the analytical partial derivatives with respect to weights ($W$) and bias ($b$):
+* **Gradient Updates:**
 
 $$\frac{\partial J}{\partial W} = \frac{1}{n} X^T (\hat{Y} - Y) + \frac{\lambda}{n} W$$
 
+
+
 $$\frac{\partial J}{\partial b} = \frac{1}{n} \sum (\hat{Y} - Y)$$
 
-#### Key Characteristics of Ridge
 
-* **Coefficient Shrinkage:** The L2 penalty shrinks coefficients continuously toward zero, but never makes them strictly absolute zero.
-* **Multicollinearity Management:** It distributes weight evenly among correlated features, stabilizing variance and preventing catastrophic weight inflation.
+
+* **Core Benefit:** Shrinks coefficients smoothly toward zero and handles multicollinearity by distributing weights evenly across correlated features.
+
+
 
 ---
 
 ### 2. Lasso Regression (L1 Regularization)
 
-Lasso (Least Absolute Shrinkage and Selection Operator) regression introduces a penalty proportional to the **absolute magnitude** of the weight coefficients (the L1 norm).
+Lasso regression introduces a penalty proportional to the **absolute magnitude** of the weight coefficients (the L1 norm).
 
-#### Mathematical Formulation
+* **Cost Function:**
 
-The regularized objective function for Lasso regression is:
+$$J(W, b) = \frac{1}{2n} \sum (\hat{Y} - Y)^2 + \frac{\lambda}{n} \sum \vert{}W\vert{}$$
 
-$$J(W, b) = \frac{1}{2n} \sum_{i=1}^{n} (\hat{Y}^{(i)} - Y^{(i)})^2 + \frac{\lambda}{n} \sum_{j=1}^{d} \vert{}W_j\vert{}$$
 
-#### Gradient Descent Optimization & The L1 Subgradient
 
-Because the absolute value function $\vert{}W\vert{}$ is non-differentiable at zero ($W = 0$), Lasso utilizes a subgradient defined by the sign function:
+* **Gradient Updates (with L1 Subgradient):**
 
 $$\frac{\partial J}{\partial W} = \frac{1}{n} X^T (\hat{Y} - Y) + \frac{\lambda}{n} \text{sign}(W)$$
 
+
+
 $$\frac{\partial J}{\partial b} = \frac{1}{n} \sum (\hat{Y} - Y)$$
 
-Where `np.sign(W)` returns $+1$ for positive weights, $-1$ for negative weights, and handles directional shrinkage steps.
 
-#### Key Characteristics of Lasso
+* **Core Benefit:** Because the L1 derivative is a constant step size determined by `np.sign(W)`, Lasso can drive coefficients of uninformative features entirely to **zero**, performing explicit feature selection.
 
-* **Automatic Feature Selection (Sparsity):** Unlike L2, the constant step size of the L1 derivative forces coefficients of irrelevant or redundant features to collapse entirely to **zero**.
-* **Model Interpretability:** By zeroing out uninformative weights, Lasso acts as a built-in feature selector, leaving behind a sparse model highlighting only the most impactful drivers.
+
 
 ---
 
-## Implementation Highlights
-
-* **From-Scratch Vectorization:** Matrix operations are optimized using NumPy to compute efficient dot products, residuals, and cost tracking.
-* **Z-Score Normalization:** Features and targets are scaled to ensure smooth, stable gradient descent convergence without scale dominance.
-* **Modular Code Architecture:** Logic is cleanly separated into reusable class modules (`LassoRegression.py`, `RidgeRegression_model.py`) and exploratory Jupyter notebooks.
-
----
-
-## Getting Started & Usage
+## Getting Started
 
 ### Prerequisites
 
-Install the required packages to run the notebooks and scripts:
+Ensure you have the required packages installed in your Python environment:
 
 ```bash
 pip install numpy pandas matplotlib openpyxl
 
 ```
 
-### Python Implementation Example
+### Usage Example
+
+You can import and use either object-oriented model class directly in your pipeline:
 
 ```python
 import numpy as np
-import pandas as pd
+from RidgeRegression_model import RidgeRegression
+from LassoRegression import LassoRegression
 
-# Load dataset
-df = pd.read_excel("Datasets/Real_estate_valuation.xlsx")
-X = df.drop("Y house price of unit area", axis=1).to_numpy()
-Y = df["Y house price of unit area"].to_numpy().reshape(-1, 1)
+# Initialize and train the Ridge model
+ridge_model = RidgeRegression(lamda=3, learning_rate=0.01, epochs=500)
+ridge_model.fit(X_scaled, Y_scaled)
+ridge_preds = ridge_model.predict(X_scaled)
 
-# Normalization
-X_norm = (X - np.mean(X, axis=0, keepdims=True)) / np.std(X, axis=0, keepdims=True)
-Y_norm = (Y - np.mean(Y)) / np.std(Y)
-
-# --- Train Ridge Regression ---
-from Ridge_Regression.RidgeRegression_model import RidgeRegression
-ridge = RidgeRegression(lamda=3, learning_rate=0.01, epochs=500)
-ridge.fit(X_norm, Y_norm)
-
-# --- Train Lasso Regression ---
-from Lasso_Regression.LassoRegression import LassoRegression
-lasso = LassoRegression(lamda=1, learning_rate=0.001, epochs=10000)
-lasso.fit(X_norm, Y_norm)
+# Initialize and train the Lasso model
+lasso_model = LassoRegression(lamda=1, learning_rate=0.01, epochs=10000)
+lasso_model.fit(X_scaled, Y_scaled)
+lasso_preds = lasso_model.LinearModel(X_scaled)
 
 ```
+
+---
+
+## Key Features & Highlights
+
+* **Modular OOP Architecture:** Clean class-based designs (`RidgeRegression_model.py` and `LassoRegression.py`) encapsulating initialization, training loops, and predictions.
+
+
+* **Custom Feature Engineering:** Integrated support for a custom-built polynomial transformation pipeline to capture non-linear real estate trends.
+
+
+* **Rigorous Evaluation:** Automated workflows featuring Z-score normalization, loss convergence tracking over epochs, and 1:1 actual vs. predicted distribution visualizations.
