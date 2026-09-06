@@ -1,7 +1,7 @@
 import numpy as np
 
 class PolynomialRegression:
-    def __init__(self,degree = 2,learning_rate = 0.01,epochs = 1000):
+    def __init__(self,degree = 3,learning_rate = 0.01,epochs = 1000):
         self.W = None
         self.b = 0.0
         self.losses = []
@@ -11,7 +11,7 @@ class PolynomialRegression:
         self.std = 0
         self.degree = degree
 
-    def predict(self,X):
+    def LinearModel(self,X):
         X_poly = self.PolynomialFeatures(X)
         X_scaled = (X_poly - self.mean) / (self.std +1e-8)
         return X_scaled @ self.W + self.b
@@ -33,6 +33,18 @@ class PolynomialRegression:
                 columns.append(poly**j)
         return np.column_stack(columns)
 
+    def update_weights(self,X,Y):
+        n = X.shape[0]
+        Y_hat = X @ self.W + self.b
+
+        return np.dot(X.T,(Y_hat - Y)) / n
+
+    def update_bias(self,X,Y):
+        n = X.shape[0]
+        Y_hat = X @ self.W + self.b
+
+        return np.sum(Y_hat - Y) / n
+
     def fit(self,X,Y):
         n = Y.shape[0]
         if Y.ndim == 1:
@@ -45,14 +57,13 @@ class PolynomialRegression:
         X_scaled = (X_poly - self.mean) / (self.std + 1e-8)
         self.initialize_params(X_scaled)
         for i in range(self.epochs):
-            Y_hat = X_scaled @ self.W + self.b
+            dw = self.update_weights(X_scaled,Y)
 
-            dw = np.dot(X_scaled.T,(Y_hat - Y)) / n
-            db = np.sum(Y - Y_hat) / n
+            db = self.update_bias(X_scaled,Y)
 
             self.W = self.W - (self.learning_rate * dw)
             self.b = self.b - (self.learning_rate * db)
-
+            Y_hat = X_scaled @ self.W + self.b
             self.cost_func(Y,Y_hat)
 
             if i % 50 == 0 or i == self.epochs - 1:
