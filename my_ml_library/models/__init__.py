@@ -1,0 +1,5 @@
+from .linear import LinearRegression
+from .regularized_Regression import RidgeRegression, LassoRegression
+from .logistic import LogisticRegression
+from .PolynomialRegression import PolynomialRegression
+from .regularized_logistic_Regression import L1LogisticRegression, L2LogisticRegression

@@ -1,0 +1,1 @@
+from .models import LinearRegression, PolynomialRegression, RidgeRegression, LassoRegression,LogisticRegression, L1LogisticRegression,L2LogisticRegression
