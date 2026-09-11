@@ -10,15 +10,11 @@ Multiple Linear Regression predicts a continuous target using multiple input fea
 
 The general model is:
 
-$$
-\hat{Y} = w_1x_1 + w_2x_2 + \cdots + w_dx_d + b
-$$
+$$\hat{Y} = w_1x_1 + w_2x_2 + \cdots + w_dx_d + b$$
 
 Using matrix notation:
 
-$$
-\hat{Y} = WX + b
-$$
+$$\hat{Y} = WX + b$$
 
 where:
 
@@ -42,29 +38,21 @@ For this implementation:
 
 Therefore:
 
-$$
-X \in \mathbb{R}^{d \times n}, \quad W \in \mathbb{R}^{1 \times d}
-$$
+$$X \in \mathbb{R}^{d \times n}, \quad W \in \mathbb{R}^{1 \times d}$$
 
 For the current dataset:
 
-$$
-X = (6 \times 414), \quad W = (1 \times 6)
-$$
+$$X = (6 \times 414), \quad W = (1 \times 6)$$
 
 #### Prediction
 
 The prediction is:
 
-$$
-\hat{Y} = WX + b
-$$
+$$\hat{Y} = WX + b$$
 
 Shape calculation:
 
-$$
-(1 \times 6)(6 \times 414) = (1 \times 414)
-$$
+$$(1 \times 6)(6 \times 414) = (1 \times 414)$$
 
 Therefore, one prediction is produced for each sample.
 
@@ -72,15 +60,11 @@ Therefore, one prediction is produced for each sample.
 
 For this orientation:
 
-$$
-\frac{\partial J}{\partial W} = \frac{1}{n} (\hat{Y} - Y)X^T
-$$
+$$\frac{\partial J}{\partial W} = \frac{1}{n} (\hat{Y} - Y)X^T$$
 
 Shape:
 
-$$
-(1 \times 414)(414 \times 6) = (1 \times 6)
-$$
+$$(1 \times 414)(414 \times 6) = (1 \times 6)$$
 
 Thus, one gradient is produced for every weight.
 
@@ -88,9 +72,7 @@ In NumPy: dw = ((Y_hat - Y) @ X.T) / n
 
 #### Gradient with Respect to Bias
 
-$$
-\frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)
-$$
+$$\frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)$$
 
 ---
 
@@ -103,77 +85,55 @@ The second approach follows the conventional machine-learning orientation:
 
 Therefore:
 
-$$
-X \in \mathbb{R}^{n \times d}, \quad W \in \mathbb{R}^{d \times 1}
-$$
+$$X \in \mathbb{R}^{n \times d}, \quad W \in \mathbb{R}^{d \times 1}$$
 
 For the same dataset:
 
-$$
-X = (414 \times 6), \quad W = (6 \times 1)
-$$
+$$X = (414 \times 6), \quad W = (6 \times 1)$$
 
 #### Prediction
 
 The prediction is:
 
-$$
-\hat{Y} = XW + b
-$$
+$$\hat{Y} = XW + b$$
 
 Shape:
 
-$$
-(414 \times 6)(6 \times 1) = (414 \times 1)
-$$
+$$(414 \times 6)(6 \times 1) = (414 \times 1)$$
 
 #### Gradient with Respect to Weights
 
 For this orientation:
 
-$$
-\frac{\partial J}{\partial W} = \frac{1}{n} X^T(\hat{Y} - Y)
-$$
+$$\frac{\partial J}{\partial W} = \frac{1}{n} X^T(\hat{Y} - Y)$$
 
 Shape:
 
-$$
-(6 \times 414)(414 \times 1) = (6 \times 1)
-$$
+$$(6 \times 414)(414 \times 1) = (6 \times 1)$$
 
 In NumPy: dw = (X.T @ (Y_hat - Y)) / n
 
 #### Gradient with Respect to Bias
 
-$$
-\frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)
-$$
+$$\frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)$$
 
 ## Cost Function
 
 The cost function used for training is:
 
-$$
-J(W,b) = \frac{1}{2n} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2
-$$
+$$J(W,b) = \frac{1}{2n} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2$$
 
 The objective is:
 
-$$
-\min_{W,b} J(W,b)
-$$
+$$\min_{W,b} J(W,b)$$
 
 ## Gradient Descent
 
 The weights and bias are updated repeatedly:
 
-$$
-W := W - \alpha \frac{\partial J}{\partial W}
-$$
+$$W := W - \alpha \frac{\partial J}{\partial W}$$
 
-$$
-b := b - \alpha \frac{\partial J}{\partial b}
-$$
+$$b := b - \alpha \frac{\partial J}{\partial b}$$
 
 where $\alpha$ is the learning rate.
 
@@ -183,9 +143,7 @@ Each feature is normalized independently.
 
 For the **Features × Samples** orientation:
 
-$$
-X_{norm} = \frac{X - \mu_X}{\sigma_X}
-$$
+$$X_{norm} = \frac{X - \mu_X}{\sigma_X}$$
 
 where the mean and standard deviation are calculated across the samples of each feature.
 
@@ -199,27 +157,27 @@ For the **Samples × Features** orientation, the same operation is performed acr
 ## Training Process
 
 Input Dataset
-      ↓
+↓
 Select Features and Target
-      ↓
+↓
 Train/Test Split
-      ↓
+↓
 Normalize Features
-      ↓
+↓
 Initialize W and b
-      ↓
+↓
 Calculate Y_hat
-      ↓
+↓
 Calculate Cost
-      ↓
+↓
 Calculate dW and db
-      ↓
+↓
 Update W and b
-      ↓
+↓
 Repeat
-      ↓
+↓
 Denormalize Predictions
-      ↓
+↓
 Evaluate Model
 
 ## Vectorization
@@ -228,9 +186,7 @@ Instead of calculating every weight gradient separately using individual loops, 
 
 For example:
 
-$$
-dW = \frac{1}{n}(\hat{Y} - Y)X^T
-$$
+$$dW = \frac{1}{n}(\hat{Y} - Y)X^T$$
 
 produces the gradient for all weights in one vectorized operation, making the implementation cleaner and more efficient.
 
@@ -245,10 +201,15 @@ The learned weights from the two approaches were very close to the Scikit-learn 
 The most important concept in this implementation was understanding that the mathematical operation remains the same even when the matrix orientation changes.
 
 * **Features × Samples:**
-  $$W \times X \implies (1 \times d) \times (d \times n) \to (1 \times n)$$
+
+$$W \times X \implies (1 \times d) \times (d \times n) \to (1 \times n)$$
+
 
 * **Samples × Features:**
-  $$X \times W \implies (n \times d) \times (d \times 1) \to (n \times 1)$$
+
+$$X \times W \implies (n \times d) \times (d \times 1) \to (n \times 1)$$
+
+
 
 Both successfully produce one prediction for every sample.
 
@@ -262,10 +223,30 @@ Both successfully produce one prediction for every sample.
 
 ## Project Structure
 
+```text
 Multiple Linear Regression/
 │
-├── multiple_linear_regression.ipynb
+├── Datasets/
+├── LinearRegression.py
+├── Multiple Regression.ipynb
 └── README.md
+
+```
+
+## Usage Example
+
+How to instantiate and train the custom `LinearRegression` class from `LinearRegression.py`:
+
+```python
+from LinearRegression import LinearRegression
+
+# Initialize the model with chosen hyper-parameters
+model = LinearRegression(learning_rate=0.1, epochs=50)
+
+# Fit the model using normalized features and target values
+model.fit(X_norm, Y_norm)
+
+```
 
 ## Learning Objective
 
@@ -280,3 +261,4 @@ This implementation was built to understand:
 7. Denormalization of predictions.
 8. Different matrix orientations.
 9. Validation against Scikit-learn.
+10. Clean separation of reusable model logic into `LinearRegression.py` alongside the exploratory notebook.
